@@ -14,14 +14,9 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan1(){
         api.judgeSendStart();
-        Point point = new Point(1.1, -2.2, 3.3);
-        Quaternion quaternion = new Quaternion(4.4f, -5.5f, 6.6f, -7.7f); api.moveTo(point, quaternion, true);
-        api.moveTo(point, quaternion, true);
-        Bitmap snapshot = api.getBitmapNavCam();
-        String valueX = "";
-        api.judgeSendDiscoveredQR(0, valueX);
-        String markerId = "";
-        api.laserControl(true);
+        api.judgeSendFinishSimulation();
+        api.judgeSendFinishISS();
+        api.shutdownFactory();
         sendData(MessageType.JSON, "data", "SUCCESS:defaultapk runPlan1");
     }
 
