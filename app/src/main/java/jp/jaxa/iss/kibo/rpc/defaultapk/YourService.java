@@ -14,10 +14,29 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan1(){
         api.judgeSendStart();
-        api.judgeSendFinishSimulation();
-        api.judgeSendFinishISS();
-        api.shutdownFactory();
-        sendData(MessageType.JSON, "data", "SUCCESS:defaultapk runPlan1");
+        moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11, -5.7, 5, 0, 0, -0.7071068, 0.7071068);
+        QRCodeDetector detector = new QRCodeDetector();
+        double tag_point[][] = {
+            { 11.5, -5.7, 4.5, 0, 0, 0, 1 },
+            { 11, -6, 5.55, 0, -0.7071068, 0, 0.7071068 },
+            { 11, -5.5, 4.33, 0, 0.7071068, 0, 0.7071068 },
+            { 10.30, -7.5, 4.7, 0, 0, 1, 0 },
+            { 11.5, -8, 5, 0, 0, 0, 1 },
+            { 11, -7.7, 5.55, 0, -0.7071068, 0, 0.7071068 }
+        };
+
+        double[] p3 = new double[7];
+        int i = 0;
+        for(double[] w : tag_point) {
+            moveToWrapper(w[0], w[1], w[2], w[3], w[4], w[5], w[6]);
+            // String data = detector.detectAndDecode(api.getMatNavCam());
+            // p3[i] = Float.parseFloat(data);
+            // api.judgeSendDiscoveredQR(i++, data);
+        }
+
+        moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], p3[6]);
     }
 
     @Override
@@ -30,5 +49,22 @@ public class YourService extends KiboRpcService {
         // write here your plan 3
     }
 
+    private void moveToWrapper(double pos_x, double pos_y, double pos_z,
+                               double qua_x, double qua_y, double qua_z,
+                               double qua_w){
+
+        final int LOOP_MAX = 3;
+        final Point point = new Point(pos_x, pos_y, pos_z);
+        final Quaternion quaternion = new Quaternion((float)qua_x, (float)qua_y,
+                                                     (float)qua_z, (float)qua_w);
+
+        Result result = api.moveTo(point, quaternion, true);
+
+        int loopCounter = 0;
+        while(!result.hasSucceeded() || loopCounter < LOOP_MAX){
+            result = api.moveTo(point, quaternion, true);
+            ++loopCounter;
+        }
+    }
 }
 
