@@ -2,6 +2,9 @@ package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import android.graphics.Bitmap;
 
+import org.opencv.objdetect.QRCodeDetector;
+
+import gov.nasa.arc.astrobee.Result;
 import gov.nasa.arc.astrobee.android.gs.MessageType;
 import gov.nasa.arc.astrobee.types.*;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
