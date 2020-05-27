@@ -44,7 +44,14 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan2(){
-        // write here your plan 2
+        api.judgeSendStart();
+        moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.8, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(9.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(9.8, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.18, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(9.8, -9.3, 5, 0, 0, -0.7071068, 0.7071068);
     }
 
     @Override
