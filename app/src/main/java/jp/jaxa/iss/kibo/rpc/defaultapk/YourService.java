@@ -8,6 +8,7 @@ import gov.nasa.arc.astrobee.Result;
 import gov.nasa.arc.astrobee.android.gs.MessageType;
 import gov.nasa.arc.astrobee.types.*;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
+import android.util.Log;
 
 /**
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
@@ -36,7 +37,8 @@ public class YourService extends KiboRpcService {
             moveToWrapper(w[0], w[1], w[2], w[3], w[4], w[5], w[6]);
             String data = detector.detectAndDecode(api.getMatNavCam());
             p3[i] = Float.parseFloat(data);
-            api.judgeSendDiscoveredQR(i++, data);
+            Log.d("QR Code", data);
+            // api.judgeSendDiscoveredQR(i++, data);
         }
 
         moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], p3[6]);
