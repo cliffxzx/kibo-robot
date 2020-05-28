@@ -19,8 +19,6 @@ public class YourService extends KiboRpcService {
     protected void runPlan1(){
         api.judgeSendStart();
         moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11, -5.7, 5, 0, 0, -0.7071068, 0.7071068);
         QRCodeDetector detector = new QRCodeDetector();
         double tag_point[][] = {
             { 11.5, -5.7, 4.5, 0, 0, 0, 1 },
@@ -35,9 +33,9 @@ public class YourService extends KiboRpcService {
         int i = 0;
         for(double[] w : tag_point) {
             moveToWrapper(w[0], w[1], w[2], w[3], w[4], w[5], w[6]);
-            String data = detector.detectAndDecode(api.getMatNavCam());
-            p3[i] = Float.parseFloat(data);
-            Log.d("QR Code", data);
+            // String data = detector.detectAndDecode(api.getMatNavCam());
+            // Log.d("QR Code", data);
+            // p3[i] = Float.parseFloat(data);
             // api.judgeSendDiscoveredQR(i++, data);
         }
 
