@@ -18,9 +18,9 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan1(){
         api.judgeSendStart();
-        moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11, -5.7, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(11, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(11, -5.7, 5, 0, 0, -0.7071068, 0.7071068);
         QRCodeDetector detector = new QRCodeDetector();
         double tag_point[][] = {
             { 11.5, -5.7, 4.5, 0, 0, 0, 1 },
@@ -47,13 +47,18 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan2(){
         api.judgeSendStart();
-        moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.8, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(9.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(9.8, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.18, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(9.8, -9.3, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(11.8, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(11.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(9.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(9.8, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(11.18, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
+//         moveToWrapper(9.8, -9.3, 5, 0, 0, -0.7071068, 0.7071068);
+           moveToWrapper(11.2446,-5.68978,4.94947,0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(10.5029,-6.45497,4.65593,0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(10.4978,-6.84826,4.65593,0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.2435,-6.85848,4.65593,0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.2435,-8.77384,4.71722,0, 0, -0.7071068, 0.7071068);
     }
 
     @Override
