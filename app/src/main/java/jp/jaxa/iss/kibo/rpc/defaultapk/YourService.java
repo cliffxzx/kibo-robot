@@ -27,42 +27,6 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan1(){
         api.judgeSendStart();
-//         moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(11, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(11, -5.7, 5, 0, 0, -0.7071068, 0.7071068);
-        QRCodeDetector detector = new QRCodeDetector();
-        double tag_point[][] = {
-            { 11.5, -5.7, 4.5, 0, 0, 0, 1 },
-            { 11, -6, 5.2, 0, -0.7071068, 0, 0.7071068 },
-            { 11, -5.5, 4.7, 0, 0.7071068, 0, 0.7071068 },
-            { 10.5, -7.5, 4.7, 0, 0, 1, 0 },
-            { 11.5, -8, 5.2, 0, 0, 0, 1 },
-            { 11, -7.7, 5.2, 0, -0.7071068, 0, 0.7071068 }
-        };
-
-        double[] p3 = new double[7];
-        int i = 0;
-        for(double[] w : tag_point) {
-            moveToWrapper(w[0], w[1], w[2], w[3], w[4], w[5], w[6]);
-            // String data = detector.detectAndDecode(api.getMatNavCam());
-            // p3[i] = Float.parseFloat(data);
-            // Log.d("QR Code", data);
-            // api.judgeSendDiscoveredQR(i++, data);
-        }
-
-        moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], p3[6]);
-    }
-
-    @Override
-    protected void runPlan2(){
-        api.judgeSendStart();
-//         moveToWrapper(10.6, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(11.8, -4.3, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(11.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(9.8, -6.11, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(9.8, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(11.18, -6.77, 5, 0, 0, -0.7071068, 0.7071068);
-//         moveToWrapper(9.8, -9.3, 5, 0, 0, -0.7071068, 0.7071068);
             double[] p3 = new double[7];
             moveToWrapper(11.2331 ,-5.71366 ,4.50006 , 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11.2678 ,-5.71366 ,4.50006, 0, 0, -0.7071068, 0.7071068); //Qrcode 1
@@ -92,6 +56,10 @@ public class YourService extends KiboRpcService {
             moveToWrapper(11.1284,-7.66963,4.6, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11.1284,-9.4,4.6, 0, 0, -0.7071068, 0.7071068);
         api.judgeSendFinishSimulation();
+    }
+
+    @Override
+    protected void runPlan2(){
     }
 
     @Override
