@@ -9,6 +9,7 @@ import gov.nasa.arc.astrobee.android.gs.MessageType;
 import gov.nasa.arc.astrobee.types.*;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 import android.util.Log;
+import java.lang.Thread;
 
 /**
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
@@ -60,7 +61,7 @@ public class YourService extends KiboRpcService {
             moveToWrapper(11 ,-5.50513 ,4.5, 0, 0, -0.7071068, 0.7071068); //Qrcode 2
             moveToWrapper(11 ,-6 ,4.5, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11 ,-6 ,5.37647, 0, 0, -0.7071068, 0.7071068); //Qrcode 3
-            
+
         //繞牆
             moveToWrapper(10.4643 ,-6.06433,4.7, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(10.6331 ,-6.87869, 4.7 , 0, 0, -0.7071068, 0.7071068);
@@ -87,8 +88,7 @@ public class YourService extends KiboRpcService {
     private void moveToWrapper(double pos_x, double pos_y, double pos_z,
                                double qua_x, double qua_y, double qua_z,
                                double qua_w){
-
-        final int LOOP_MAX = 3;
+        final int RETRY_MAX = 20;
         final Point point = new Point(pos_x, pos_y, pos_z);
         final Quaternion quaternion = new Quaternion((float)qua_x, (float)qua_y,
                                                      (float)qua_z, (float)qua_w);
@@ -96,9 +96,18 @@ public class YourService extends KiboRpcService {
         Result result = api.moveTo(point, quaternion, true);
 
         int loopCounter = 0;
-        while(!result.hasSucceeded() || loopCounter < LOOP_MAX){
-            result = api.moveTo(point, quaternion, true);
+        String TAG = "seal:";
+        while(!result.hasSucceeded() && loopCounter <= RETRY_MAX){
             ++loopCounter;
+
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+
+            Log.d(TAG, "MoveTo->Counter:" + loopCounter + "Result->Status:" + result.getStatus());
+            result = api.moveTo(point, quaternion, true);
         }
     }
 }
