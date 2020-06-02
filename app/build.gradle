@@ -5,9 +5,9 @@ repositories {
 }
 
 android {
-    buildToolsVersion '28.0.3' // Older versions may give compile errors
+    buildToolsVersion '27.0.3'
     compileSdkVersion 26
-    // buildToolsVersion "26.0.2"
+
     defaultConfig {
         applicationId "jp.jaxa.iss.kibo.rpc.defaultapk" +
                 ""
@@ -39,8 +39,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     compile project(':guest_science_library')
     compile project(':kibo_rpc_api')
     compile fileTree(dir: 'libs', include: ['*.jar'])

@@ -12,7 +12,6 @@ import android.util.Log;
 import java.lang.Thread;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.BinaryBitmap;
-import com.google.zxing.Result;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import android.graphics.Bitmap;
@@ -67,13 +66,13 @@ public class YourService extends KiboRpcService {
             double[] p3 = new double[7];
             moveToWrapper(11.2331 ,-5.71366 ,4.50006 , 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11.2678 ,-5.71366 ,4.50006, 0, 0, -0.7071068, 0.7071068); //Qrcode 1
-            p3[0] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[0] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
             moveToWrapper(11 ,-5.50513 ,4.62898, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11 ,-5.50513 ,4.5, 0, 0, -0.7071068, 0.7071068); //Qrcode 2
-            p3[1] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[1] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
             moveToWrapper(11 ,-6 ,4.5, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11 ,-6 ,5.37647, 0, 0, -0.7071068, 0.7071068); //Qrcode 3
-            p3[2] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[2] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
         //繞牆
             moveToWrapper(10.4643 ,-6.06433,4.7, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(10.6331 ,-6.87869, 4.7 , 0, 0, -0.7071068, 0.7071068);
@@ -81,13 +80,13 @@ public class YourService extends KiboRpcService {
 
             moveToWrapper(11.2454 ,-7.5, 4.7 , 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(10.6058,-7.5, 4.7, 0, 0, -0.7071068, 0.7071068 ); //Qrcode 4
-            p3[3] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[3] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
             moveToWrapper(11,-7.8,5, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11.1,-7.8,5, 0, 0, -0.7071068, 0.7071068); //Qrcode 5
-            p3[4] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[4] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
             moveToWrapper(11,-7.7,5, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11,-7.7,5.3, 0, 0, -0.7071068, 0.7071068); //Qrcode 6
-            p3[6] = Double.parseDouble(getNavCamQRCodeStr().split(" ")[1]);
+            p3[6] = Double.parseDouble(getNavCamQRCodeStr(api.getBitmapNavCam()).split(" ")[1]);
             Log.d("Seal", "P3: " + p3.toString());
 
             moveToWrapper(11.1284,-7.66963,4.6, 0, 0, -0.7071068, 0.7071068);
@@ -101,19 +100,19 @@ public class YourService extends KiboRpcService {
     }
 
     private static QRCodeReader reader = new QRCodeReader();
-    private static String getNavCamQRCodeStr() {
-        Bitmap scanBitmap = api.getBitmapNavCam();
-        RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap);
+    private static String getNavCamQRCodeStr(Bitmap bm) {
+        int[] pixels = null;
+        bm.getPixels(pixels,0,0,0,0,bm.getWidth(),bm.getHeight());
+        RGBLuminanceSource source = new RGBLuminanceSource(bm.getWidth(), bm.getHeight(), pixels);
         BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
-        Result data;
         try {
-            data = reader.decode(bitmap1);
-        } catch (NotFoundException e) {
+            String str = reader.decode(bitmap1).getText();
+            Log.d("Seal", str);
+            return str;
+        } catch (NotFoundException | ChecksumException | FormatException e) {
             Log.w("Seal", "error can't detect qrcode");
         }
-        String str = data.getText();
-        Log.d("Seal", str);
-        return str;
+        return null;
     }
 
     private void moveToWrapper(double pos_x, double pos_y, double pos_z,
