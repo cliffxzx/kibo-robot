@@ -70,8 +70,8 @@ public class YourService extends KiboRpcService {
 
             moveToWrapper(11.2454 ,-7.5, 4.7 , 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(10.6058,-7.5, 4.7, 0, 0, -0.7071068, 0.7071068 ); //Qrcode 4
-            moveToWrapper(11,-8,5, 0, 0, -0.7071068, 0.7071068);
-            moveToWrapper(11.3,-8,5, 0, 0, -0.7071068, 0.7071068); //Qrcode 5
+            moveToWrapper(11,-7.8,5, 0, 0, -0.7071068, 0.7071068);
+            moveToWrapper(11.1,-7.8,5, 0, 0, -0.7071068, 0.7071068); //Qrcode 5
             moveToWrapper(11,-7.7,5, 0, 0, -0.7071068, 0.7071068);
             moveToWrapper(11,-7.7,5.3, 0, 0, -0.7071068, 0.7071068); //Qrcode 6
 
