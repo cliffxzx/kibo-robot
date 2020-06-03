@@ -68,10 +68,12 @@ public class YourService extends KiboRpcService {
     }
 
     private static QRCodeReader reader = new QRCodeReader();
-    private static String getNavCamQRCodeStr(Bitmap bm) {
-        int[] pixels = null;
-        bm.getPixels(pixels,0,0,0,0,bm.getWidth(),bm.getHeight());
-        RGBLuminanceSource source = new RGBLuminanceSource(bm.getWidth(), bm.getHeight(), pixels);
+    private static String getNavCamQRCodeStr(Bitmap m) {
+        int width = m.getWidth();
+        int height = m.getHeight();
+        int[] pixels = new int[2 * width * height];
+        m.getPixels(pixels,0,0,0,0, width , height);
+        RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
         BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
         try {
             String str = reader.decode(bitmap1).getText();
