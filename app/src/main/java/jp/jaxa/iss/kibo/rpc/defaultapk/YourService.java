@@ -1,21 +1,19 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
-import android.graphics.Bitmap;
+import java.lang.Thread;
 
-import org.opencv.objdetect.QRCodeDetector;
+import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 
 import gov.nasa.arc.astrobee.Result;
 import gov.nasa.arc.astrobee.android.gs.MessageType;
 import gov.nasa.arc.astrobee.types.*;
-import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 import android.util.Log;
-import java.lang.Thread;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.*;
 
@@ -90,7 +88,7 @@ public class YourService extends KiboRpcService {
         Result result = api.moveTo(point, quaternion, true);
 
         int loopCounter = 0;
-        String TAG = "seal:";
+        String TAG = "Seal";
         while(!result.hasSucceeded() && loopCounter <= RETRY_MAX){
             ++loopCounter;
 
