@@ -36,6 +36,27 @@ public class QRCodeUtils {
 
   public static Hashtable p3 = new Hashtable();
 
+  public static void judgeQRCodeloop(KiboRpcApi api) {
+    int maxTry = 20;
+    String res = null;
+    while(res == null && maxTry >= 0) {
+      try {
+        res = getQRCodeStr(api.getBitmapNavCam());
+        Log.d("Seal", res);
+
+        String[] arr = res.split("(,|\\s)");
+        String id = arr[0];
+        double n = Double.parseDouble(arr[1]);
+
+        p3.put(id, n);
+        api.judgeSendDiscoveredQR(judgeid.get(id), res);
+      } catch(Exception e){
+          Log.w("Seal", "QRCode Scan Failed", e);
+      }
+      --maxTry;
+    }
+  }
+
   public static void judgeQRCode(KiboRpcApi api) {
       try {
         String res = getQRCodeStr(api.getBitmapNavCam());
