@@ -27,7 +27,8 @@ public class YourService extends KiboRpcService {
         api.judgeSendStart();
 
         //QR Code 1
-        moveToWrapper(11.2331, -5.71366, 4.50006, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.2331, -5.71366, 4.50006,  0.5, -0.5, -0.5, 0.5);
+        QRCodeUtils.judgeQRCode(api);
         moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, 0, 1);
         QRCodeUtils.judgeQRCode(api);
 
