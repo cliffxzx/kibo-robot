@@ -40,15 +40,15 @@ public class QRCodeUtils {
 
   public static void judgeQRCode(KiboRpcApi api) {
       try {
-          String res = getQRCodeStr(api.getBitmapNavCam());
-          Log.d("Seal", res);
+        String res = getQRCodeStr(api.getBitmapNavCam());
+        Log.d("Seal", res);
 
-          String[] arr = res.split("(,|\\s)");
-          String id = arr[0];
-          double n = Double.parseDouble(arr[1]);
+        String[] arr = res.split("(,|\\s)");
+        String id = arr[0];
+        double n = Double.parseDouble(arr[1]);
 
-          p3.put(id, n);
-          api.judgeSendDiscoveredQR(judgeid.get(id), res);
+        p3.put(id, n);
+        api.judgeSendDiscoveredQR(judgeid.get(id), res);
       } catch(Exception e){
           Log.w("Seal", "QRCode Scan Failed", e);
       }

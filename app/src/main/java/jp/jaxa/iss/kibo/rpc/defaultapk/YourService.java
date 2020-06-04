@@ -28,7 +28,7 @@ public class YourService extends KiboRpcService {
 
         //QR Code 1
         moveToWrapper(11.2331, -5.71366, 4.50006, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, 0, 1);
         QRCodeUtils.judgeQRCode(api);
 
         //QR Code 2
@@ -74,18 +74,18 @@ public class YourService extends KiboRpcService {
         //QRcode 1 2 3
         moveToWrapper(11,-6,5.3, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.1,-5.87804 ,5.2, 0, 0, -0.7071068, 0.7071068);
-        
+
         //繞牆
         moveToWrapper(10.425,-6,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.425,-6.75325,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.5161,-6.75325,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.5161,-7.5065,4.7, 0, 0, -0.7071068, 0.7071068);
-        
+
         //QRcode 4 5 6
         moveToWrapper(10.6,-7.5065,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.62,-7.5065,4.72, 0, 0, -0.7071068, 0.7071068);
-        
-       
+
+
         moveToWrapper(11.0217,-7.5065,4.67696, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.0217,-9.3,4.67696, 0, 0, -0.7071068, 0.7071068);
         api.judgeSendFinishSimulation();
