@@ -41,21 +41,22 @@ public class QRCodeUtils {
   public static void judgeQRCode(KiboRpcApi api) {
       try {
           String res = getQRCodeStr(api.getBitmapNavCam());
+          Log.d("Seal", res);
+
           String[] arr = res.split("(,|\\s)");
           String id = arr[0];
           double n = Double.parseDouble(arr[1]);
 
           p3.put(id, n);
           api.judgeSendDiscoveredQR(judgeid.get(id), res);
-          Log.d("Seal", res);
       } catch(Exception e){
-          Log.w("Seal", e.getLocalizedMessage());
+          Log.w("Seal", "QRCode Scan Failed", e);
       }
   }
 
   public static void judgeMultiQRCode(KiboRpcApi api) {
     try {
-      String results[] = getMultiQRCodeStr(api.getBitmapNavCam());
+      String[] results = getMultiQRCodeStr(api.getBitmapNavCam());
       for(int w = 0; w < results.length; ++w) {
         String res = results[w];
         String[] arr = res.split("(,|\\s)");
@@ -67,22 +68,22 @@ public class QRCodeUtils {
         Log.d("Seal", res);
       }
     } catch(Exception e){
-      Log.w("Seal", e.getLocalizedMessage());
+      Log.w("Seal", "QRCode Scan Failed", e);
     }
   }
 
-  public static String getQRCodeStr(Bitmap m) throws NotFoundException,ChecksumException,FormatException {
+  public static String getQRCodeStr(Bitmap m) throws Exception {
       int width = m.getWidth();
       int height = m.getHeight();
       int[] pixels = new int[width * height];
-      m.getPixels(pixels,0,0,0,0, width , height);
+      m.getPixels(pixels, 0, width, 0, 0, width , height);
       RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
       BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
       String str = reader.decode(bitmap1).getText();
       return str;
   }
 
-  public static String[] getMultiQRCodeStr(Bitmap m) throws NotFoundException, ChecksumException, FormatException {
+  public static String[] getMultiQRCodeStr(Bitmap m) throws Exception {
       int width = m.getWidth();
       int height = m.getHeight();
       int[] pixels = new int[width * height];
@@ -90,7 +91,7 @@ public class QRCodeUtils {
       RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
       BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
       com.google.zxing.Result results[] = multiReader.decodeMultiple(bitmap1);
-      String resultsStr[] = new String[results.length];
+      String[] resultsStr = new String[results.length];
 
       for(int w = 0; w < results.length; ++w) {
         resultsStr[w] = results[w].getText();
