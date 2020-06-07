@@ -94,6 +94,7 @@ public class YourService extends KiboRpcService {
         moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], qua_w);
 
         ARTagUtils.judgeARTag(api);
+        api.laserControl(true);
         api.judgeSendFinishSimulation();
     }
 
