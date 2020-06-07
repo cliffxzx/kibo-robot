@@ -20,13 +20,14 @@ public class YourService extends KiboRpcService {
     protected void runPlan1(){
         api.judgeSendStart();
 
-        final double[] p3 = new double[6];
         new QRCodeAsyncTask(new QRCodeAsyncTask.AsyncResponse(){
             @Override
             public void processFinish(HashMap<Integer, Double> result) {
+                final double[] p3 = new double[6];
                 for(int i = 0 ; i < 6 ; i++ ){
                     p3[i] = result.get(i);
                 }
+                runFinal(p3);
             }
         }).execute(api);
 
@@ -52,16 +53,6 @@ public class YourService extends KiboRpcService {
 
         //QR Code 6
         moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
-
-        Log.d("Seal", Arrays.toString(p3));
-
-        double qua_w = Math.sqrt(Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
-
-        moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], qua_w);
-
-        ARTagUtils.judgeARTag(api);
-
-        api.judgeSendFinishSimulation();
     }
 
     @Override
@@ -90,6 +81,17 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan3(){
         // write here your plan 3
+    }
+
+    private void runFinal(double[] p3){
+        Log.d("Seal", Arrays.toString(p3));
+
+        double qua_w = Math.sqrt(Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
+
+        moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], qua_w);
+
+        ARTagUtils.judgeARTag(api);
+        api.judgeSendFinishSimulation();
     }
 
     private void moveToWrapper(double pos_x, double pos_y, double pos_z,
