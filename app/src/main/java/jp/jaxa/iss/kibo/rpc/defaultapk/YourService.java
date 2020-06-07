@@ -109,7 +109,7 @@ public class YourService extends KiboRpcService {
                 Log.d(TAG, e.getMessage());
             }
 
-            Log.d(TAG, "MoveTo->Counter:" + loopCounter + "Result->Status:" + result.getStatus());
+            Log.d(TAG, "MoveTo->Point:" + point.toString() + ",Counter:"+loopCounter+" Result->Status:" + result.getStatus());
             result = api.moveTo(point, quaternion, true);
         }
     }
