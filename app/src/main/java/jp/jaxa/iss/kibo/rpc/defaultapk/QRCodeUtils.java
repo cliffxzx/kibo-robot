@@ -49,7 +49,7 @@ public class QRCodeUtils implements Runnable {
         while (true) {
             judgeQRCode(api);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 Log.e("Seal", "Sleep failed", e);
                 return;
@@ -63,18 +63,23 @@ public class QRCodeUtils implements Runnable {
             String res = getQRCodeStr(api.getBitmapNavCam());
             Log.d("Seal", res);
 
-            String[] arr = res.split("(,|\\s)");
+            String[] arr = res.split(", ");
             String id = arr[0];
-            double n = Double.parseDouble(arr[1]);
 
-            p3.put(id, n);
-            api.judgeSendDiscoveredQR(idMap.get(id), res);
+            if(!p3.containsKey(id)) {
+                double n = Double.parseDouble(arr[1]);
+                p3.put(id, n);
+                api.judgeSendDiscoveredQR(idMap.get(id), res);
+            }
+
         } catch (FormatException e) {
             Log.e("Seal", "FormatException", e);
         } catch (ChecksumException e) {
             Log.e("Seal", "ChecksumException", e);
         } catch (NotFoundException e) {
             Log.i("Seal", "No QRCode found");
+        } catch (Exception e){
+            Log.e("Seal", "Unhandled Exception", e);
         }
     }
 
