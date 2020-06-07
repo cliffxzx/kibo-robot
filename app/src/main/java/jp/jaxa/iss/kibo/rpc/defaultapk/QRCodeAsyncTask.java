@@ -66,14 +66,15 @@ public class QRCodeAsyncTask extends AsyncTask<KiboRpcApi, Void, HashMap<Integer
             String res = getQRCodeStr(api.getBitmapNavCam());
 
             Log.d("Seal", res);
+            Log.d("Seal", api.getImu().getOrientation().toString());
 
             String[] arr = res.split(", ");
-            String id = arr[0];
+            int id = idMap.get(arr[0]);
 
             if(!p3.containsKey(id)) {
                 double n = Double.parseDouble(arr[1]);
-                p3.put(idMap.get(id), n);
-                api.judgeSendDiscoveredQR(idMap.get(id), res);
+                p3.put(id, n);
+                api.judgeSendDiscoveredQR(id, res);
             }
         } catch (FormatException e) {
             Log.w("Seal", "FormatException", e);
