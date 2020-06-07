@@ -28,22 +28,21 @@ public class YourService extends KiboRpcService {
         moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, 0, 1);
 
         //QR Code 3
-        moveToWrapper(11, -6, 4.5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.9, -6, 5.3, 0.5, -0.5, 0.5, -0.5);
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.6331, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.2454, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.1454, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
 
         //QR Code 4
-        moveToWrapper(11.2454, -8, 5, 0, 0, 0, 1);
+        moveToWrapper(11.1454, -8, 5, 0, 0, 0, 1);
 
         //QR Code 5
         moveToWrapper(10.5, -7.5, 4.7, 0, 0, -0.7071068, 0.7071068);
 
         //QR Code 6
-        moveToWrapper(11, -7.7, 5.3, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11, -7.7, 5.35, 0, 0, -0.7071068, 0.7071068);
 
         Log.d("Seal", QRdetector.p3.toString());
         Map<String, Double> p3 = QRdetector.p3;
