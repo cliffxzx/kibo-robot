@@ -28,7 +28,7 @@ public class ARTagUtils {
             try {
                 List<Mat> corners = new ArrayList<>();
                 Mat ids = new Mat();
-                Aruco.detectMarkers(img, dictionary, corners, ids);
+                Aruco.detectMarkers(api.getMatNavCam(), dictionary, corners, ids);
                 double cameraMat[][] = { { 344.173397, 0, 630.793795 }, { 0, 344.277922, 487.033834}, { 0, 0, 1 } };
                 Mat cameraMatrix = new Mat(3, 3, CvType.CV_64F);
                 for(int w = 0; w < 3; ++w)
