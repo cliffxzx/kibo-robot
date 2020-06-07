@@ -22,34 +22,42 @@ public class YourService extends KiboRpcService {
         Thread QRdetector_t = new Thread(QRdetector);
         QRdetector_t.start();
 
-        //QR Code 1
+        //QR Code pos_z
         moveToWrapper(11.2331, -5.5, 4.50006, 0.5, 0.5, -0.5, 0.5);
-        //QR Code 2
-        moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, 0, 1);
 
-        //QR Code 3
-        moveToWrapper(10.9, -6, 5.3, 0.5, -0.5, 0.5, -0.5);
+        //QR Code pos_x
+        moveToWrapper(11.35, -5.71366, 4.50006, 0, 0, 0, 1);
+
+        //QR Code pos_y
+        moveToWrapper(10.9, -6, 5.4, -0.5, -0.5, 0.5, 0.5);
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.6331, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.1454, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.32, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
 
         //QR Code 4
-        moveToWrapper(11.1454, -8, 5, 0, 0, 0, 1);
+        moveToWrapper(11.32, -8, 5, 0, 0, 0, 1);
 
         //QR Code 5
-        moveToWrapper(10.5, -7.5, 4.7, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(10.5, -7.5, 4.7, 0, 0, 1, 0);
 
         //QR Code 6
-        moveToWrapper(11, -7.7, 5.35, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
 
         Log.d("Seal", QRdetector.p3.toString());
         Map<String, Double> p3 = QRdetector.p3;
+        QRdetector_t.interrupt();
 
-        moveToWrapper(p3.get("pos_x"), p3.get("pos_y"), p3.get("pos_z"), p3.get("qua_x"), p3.get("qua_y"), p3.get("qua_z"), 0.7071068);
-        moveToWrapper(11.1284, -9.4, 4.6, 0, 0, -0.7071068, 0.7071068);
+        ARTagUtils ARdetector = new ARTagUtils(api);
+        Thread ARdetector_t = new Thread(ARdetector);
+        double qua_w = Math.sqrt(Math.pow(p3.get("qua_x"), 2)+Math.pow(p3.get("qua_x"), 2)+Math.pow(p3.get("qua_x"), 2));
+
+        moveToWrapper(p3.get("pos_x"), p3.get("pos_y"), p3.get("pos_z"), p3.get("qua_x"), p3.get("qua_y"), p3.get("qua_z"), qua_w);
+
+        ARdetector_t.start();
         api.judgeSendFinishSimulation();
+        ARdetector_t.interrupt();
     }
 
     @Override
