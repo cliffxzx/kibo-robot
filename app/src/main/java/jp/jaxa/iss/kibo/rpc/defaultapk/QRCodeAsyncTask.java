@@ -1,10 +1,10 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import java.util.*;
-import java.lang.Thread;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcApi;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.graphics.Bitmap;
 
@@ -19,15 +19,25 @@ import com.google.zxing.*;
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
  */
 
-public class QRCodeUtils implements Runnable {
+public class QRCodeAsyncTask extends AsyncTask<KiboRpcApi, Void, HashMap<Integer, Double>> {
 
-    public HashMap<String, Double> p3;
+    public interface AsyncResponse {
+        void processFinish(HashMap<Integer, Double> result);
+    }
+
+    public AsyncResponse delegate =null;
+
+    private HashMap<Integer, Double> p3;
     private QRCodeReader reader;
     private HashMap<String, Integer> idMap;
-    private KiboRpcApi api;
 
-    public QRCodeUtils(KiboRpcApi api) {
-        this.api = api;
+    public QRCodeAsyncTask(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
+
+    @Override
+    protected HashMap<Integer, Double> doInBackground(KiboRpcApi... kiboRpcApis) {
+        KiboRpcApi api = kiboRpcApis[0];
         reader = new QRCodeReader();
         idMap = new HashMap<String, Integer>() {{
             put("pos_x", 0);
@@ -39,18 +49,20 @@ public class QRCodeUtils implements Runnable {
         }};
 
         p3 = new HashMap<>();
+
+        while (p3.size() < 6) {
+            judgeQRCode(api);
+        }
+        return p3;
     }
 
     @Override
-    public void run() {
-        while (true) {
-            judgeQRCode(api);
-        }
+    protected void onPostExecute(HashMap<Integer, Double> result){
+        delegate.processFinish(result);
     }
 
     public void judgeQRCode(KiboRpcApi api) {
         try {
-            System.gc();
             String res = getQRCodeStr(api.getBitmapNavCam());
 
             Log.d("Seal", res);
@@ -60,10 +72,9 @@ public class QRCodeUtils implements Runnable {
 
             if(!p3.containsKey(id)) {
                 double n = Double.parseDouble(arr[1]);
-                p3.put(id, n);
+                p3.put(idMap.get(id), n);
                 api.judgeSendDiscoveredQR(idMap.get(id), res);
             }
-
         } catch (FormatException e) {
             Log.w("Seal", "FormatException", e);
         } catch (ChecksumException e) {

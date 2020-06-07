@@ -1,6 +1,8 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import java.lang.Thread;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
@@ -18,9 +20,15 @@ public class YourService extends KiboRpcService {
     protected void runPlan1(){
         api.judgeSendStart();
 
-        QRCodeUtils QRdetector = new QRCodeUtils(api);
-        Thread QRdetector_t = new Thread(QRdetector);
-        QRdetector_t.start();
+        final double[] p3 = new double[6];
+        new QRCodeAsyncTask(new QRCodeAsyncTask.AsyncResponse(){
+            @Override
+            public void processFinish(HashMap<Integer, Double> result) {
+                for(int i = 0 ; i < 6 ; i++ ){
+                    p3[i] = result.get(i);
+                }
+            }
+        }).execute(api);
 
         //QR Code pos_z
         moveToWrapper(11.2331, -5.5, 4.50006, 0.5, 0.5, -0.5, 0.5);
@@ -45,13 +53,11 @@ public class YourService extends KiboRpcService {
         //QR Code 6
         moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
 
-        Log.d("Seal", QRdetector.p3.toString());
-        Map<String, Double> p3 = QRdetector.p3;
-        QRdetector_t.interrupt();
+        Log.d("Seal", Arrays.toString(p3));
 
-        double qua_w = Math.sqrt(Math.pow(p3.get("qua_x"), 2) + Math.pow(p3.get("qua_x"), 2) + Math.pow(p3.get("qua_x"), 2));
+        double qua_w = Math.sqrt(Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
 
-        moveToWrapper(p3.get("pos_x"), p3.get("pos_y"), p3.get("pos_z"), p3.get("qua_x"), p3.get("qua_y"), p3.get("qua_z"), qua_w);
+        moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], qua_w);
 
         ARTagUtils.judgeARTag(api);
 
