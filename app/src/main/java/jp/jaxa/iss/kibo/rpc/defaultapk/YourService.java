@@ -52,7 +52,10 @@ public class YourService extends KiboRpcService {
 
         //QR Code 6
         moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
-
+        
+        moveToErapper(11.0565,-7.7,4.62372,0, 0, -0.7071068, 0.7071068);
+        moveToErapper(11.0565,-9.27526,4.62372,0, 0, -0.7071068, 0.7071068);
+        
         Log.d("Seal", Arrays.toString(p3));
 
         double qua_w = Math.sqrt(Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
