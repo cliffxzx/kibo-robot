@@ -17,37 +17,26 @@ import org.opencv.aruco.Dictionary;
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
  */
 
-public class ARTagUtils implements Runnable {
+public class ARTagUtils {
 
-    private Dictionary dictionary;
-    private KiboRpcApi api;
+    private static Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
 
-    public ARTagUtils(KiboRpcApi api) {
-        this.api = api;
-        dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
-    }
+    public static void judgeARTag(KiboRpcApi api) {
+        String res = null;
+        while(res == null) {
+            try {
+                res = getARTagStr(api.getMatNavCam());
 
-    @Override
-    public void run() {
-        while (true) {
-            judgeARTag(api);
+                Log.d("Seal", res);
+                api.judgeSendDiscoveredAR(res);
+
+            } catch (Exception e){
+                Log.e("Seal", "Unhandled Exception", e);
+            }
         }
     }
 
-    public void judgeARTag(KiboRpcApi api) {
-        try {
-            System.gc();
-            String res = getARTagStr(api.getMatNavCam());
-
-            Log.d("Seal", res);
-            api.judgeSendDiscoveredAR(res);
-
-        } catch (Exception e){
-            Log.e("Seal", "Unhandled Exception", e);
-        }
-    }
-
-    public String getARTagStr(Mat m) throws Exception {
+    public static String getARTagStr(Mat m) throws Exception {
         List<Mat> corners = new ArrayList<>();
         Mat ids = new Mat();
         Aruco.detectMarkers(m, dictionary, corners, ids);

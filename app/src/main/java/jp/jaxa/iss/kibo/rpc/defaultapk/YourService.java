@@ -33,8 +33,8 @@ public class YourService extends KiboRpcService {
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(10.6331, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
-        moveToWrapper(11.32, -6.87869, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(10.6331, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.32, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
 
         //QR Code 4
         moveToWrapper(11.32, -8, 5, 0, 0, 0, 1);
@@ -49,15 +49,13 @@ public class YourService extends KiboRpcService {
         Map<String, Double> p3 = QRdetector.p3;
         QRdetector_t.interrupt();
 
-        ARTagUtils ARdetector = new ARTagUtils(api);
-        Thread ARdetector_t = new Thread(ARdetector);
-        double qua_w = Math.sqrt(Math.pow(p3.get("qua_x"), 2)+Math.pow(p3.get("qua_x"), 2)+Math.pow(p3.get("qua_x"), 2));
+        double qua_w = Math.sqrt(Math.pow(p3.get("qua_x"), 2) + Math.pow(p3.get("qua_x"), 2) + Math.pow(p3.get("qua_x"), 2));
 
         moveToWrapper(p3.get("pos_x"), p3.get("pos_y"), p3.get("pos_z"), p3.get("qua_x"), p3.get("qua_y"), p3.get("qua_z"), qua_w);
 
-        ARdetector_t.start();
+        ARTagUtils.judgeARTag(api);
+
         api.judgeSendFinishSimulation();
-        ARdetector_t.interrupt();
     }
 
     @Override
