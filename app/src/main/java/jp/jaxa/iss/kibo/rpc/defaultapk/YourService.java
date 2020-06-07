@@ -45,13 +45,13 @@ public class YourService extends KiboRpcService {
         moveToWrapper(10.6331, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.32, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
 
-        //QR Code 4
+        //QR Code qua_y
         moveToWrapper(11.32, -8, 5, 0, 0, 0, 1);
 
-        //QR Code 5
+        //QR Code qua_x
         moveToWrapper(10.5, -7.5, 4.7, 0, 0, 1, 0);
 
-        //QR Code 6
+        //QR Code qua_z
         moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
 
         moveToWrapper(11.0565,-7.7,4.62372,0, 0, -0.7071068, 0.7071068);
@@ -71,7 +71,7 @@ public class YourService extends KiboRpcService {
         moveToWrapper(11.5161,-6.75325,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.5161,-7.5065,4.7, 0, 0, -0.7071068, 0.7071068);
 
-        //QRcode 4 5 6
+        //QRcode qua
         moveToWrapper(10.6,-7.5065,4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.5161,-7.5065,4.7,-0.322, 0.000,0.947,0);
 
@@ -83,7 +83,44 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan3(){
-        // write here your plan 3
+        api.judgeSendStart();
+
+        new QRCodeAsyncTask(new QRCodeAsyncTask.AsyncResponse(){
+            @Override
+            public void processFinish(HashMap<Integer, Double> result) {
+                final double[] p3 = new double[6];
+                for(int i = 0 ; i < 6 ; i++ ){
+                    p3[i] = result.get(i);
+                }
+                runFinal(p3);
+            }
+        }).execute(api);
+
+        //QR Code pos_z
+        moveToWrapper(11.2331, -5.5, 4.50006, 0.5, 0.5, -0.5, 0.5);
+
+        //QR Code pos_x
+        moveToWrapper(11.35, -5.71366, 4.50006, 0, 0, 0, 1);
+
+        //QR Code pos_y
+        moveToWrapper(10.9, -6, 5.4, 0.5, -0.5, 0.5, 0.5);
+
+        //繞牆
+        moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(10.6331, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.32, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
+
+        //QR Code qua_y
+        moveToWrapper(11.32, -8, 5, 0, 0, 0, 1);
+
+        //QR Code qua_x
+        moveToWrapper(10.5, -7.5, 4.7, 0, 0, 1, 0);
+
+        //QR Code qua_z
+        moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
+
+        moveToWrapper(11.0565,-7.7,4.62372,0, 0, -0.7071068, 0.7071068);
+        moveToWrapper(11.0565,-9.27526,4.62372,0, 0, -0.7071068, 0.7071068);
     }
 
     private void runFinal(double[] p3){
