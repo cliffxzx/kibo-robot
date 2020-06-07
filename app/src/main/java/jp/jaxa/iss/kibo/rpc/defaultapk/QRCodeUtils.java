@@ -4,14 +4,10 @@ import java.util.*;
 import java.lang.Thread;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcApi;
-import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 
-import gov.nasa.arc.astrobee.Result;
-import gov.nasa.arc.astrobee.android.gs.MessageType;
-import gov.nasa.arc.astrobee.types.*;
 import android.util.Log;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.RGBLuminanceSource;
@@ -23,67 +19,74 @@ import com.google.zxing.*;
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
  */
 
-public class QRCodeUtils {
-  private static QRCodeReader reader = new QRCodeReader();
-  private static HashMap<String, Integer> judgeid = new HashMap<String, Integer>() {{
-    put("pos_x", 0);
-    put("pos_y", 1);
-    put("pos_z", 2);
-    put("qua_x", 3);
-    put("qua_y", 4);
-    put("qua_z", 5);
-   }};
+public class QRCodeUtils implements Runnable {
 
-  public static Hashtable p3 = new Hashtable();
+    public HashMap<String, Double> p3;
+    private QRCodeReader reader;
+    private HashMap<String, Integer> idMap;
+    private Map<DecodeHintType, Object> decodeHints;
+    private KiboRpcApi api;
 
-  public static void judgeQRCodeloop(KiboRpcApi api) {
-    int maxTry = 20;
-    String res = null;
-    while(res == null && maxTry >= 0) {
-      try {
-        res = getQRCodeStr(api.getBitmapNavCam());
-        Log.d("Seal", res);
+    public QRCodeUtils(KiboRpcApi api) {
+        this.api = api;
+        reader = new QRCodeReader();
+        idMap = new HashMap<String, Integer>() {{
+            put("pos_x", 0);
+            put("pos_y", 1);
+            put("pos_z", 2);
+            put("qua_x", 3);
+            put("qua_y", 4);
+            put("qua_z", 5);
+        }};
+        decodeHints = new HashMap<>();
+        decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 
-        String[] arr = res.split("(,|\\s)");
-        String id = arr[0];
-        double n = Double.parseDouble(arr[1]);
-
-        p3.put(id, n);
-        api.judgeSendDiscoveredQR(judgeid.get(id), res);
-      } catch(Exception e){
-          Log.w("Seal", "QRCode Scan Failed", e);
-      }
-      --maxTry;
+        p3 = new HashMap<>();
     }
-  }
 
-  public static void judgeQRCode(KiboRpcApi api) {
-      try {
-        String res = getQRCodeStr(api.getBitmapNavCam());
-        Log.d("Seal", res);
+    @Override
+    public void run() {
+        while (true) {
+            judgeQRCode(api);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Log.e("Seal", "Sleep failed", e);
+                return;
+            }
+        }
+    }
 
-        String[] arr = res.split("(,|\\s)");
-        String id = arr[0];
-        double n = Double.parseDouble(arr[1]);
+    public void judgeQRCode(KiboRpcApi api) {
+        try {
+            System.gc();
+            String res = getQRCodeStr(api.getBitmapNavCam());
+            Log.d("Seal", res);
 
-        p3.put(id, n);
-        api.judgeSendDiscoveredQR(judgeid.get(id), res);
-      } catch(Exception e){
-          Log.w("Seal", "QRCode Scan Failed", e);
-      }
-  }
+            String[] arr = res.split("(,|\\s)");
+            String id = arr[0];
+            double n = Double.parseDouble(arr[1]);
 
-  public static String getQRCodeStr(Bitmap m) throws Exception {
-      int width = m.getWidth();
-      int height = m.getHeight();
-      int[] pixels = new int[width * height];
-      m.getPixels(pixels, 0, width, 0, 0, width , height);
-      RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
-      BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
-      Map<DecodeHintType, Object> hints = new HashMap<>();
-      hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
-      String str = reader.decode(bitmap1, hints).getText();
-      return str;
-  }
+            p3.put(id, n);
+            api.judgeSendDiscoveredQR(idMap.get(id), res);
+        } catch (FormatException e) {
+            Log.e("Seal", "FormatException", e);
+        } catch (ChecksumException e) {
+            Log.e("Seal", "ChecksumException", e);
+        } catch (NotFoundException e) {
+            Log.i("Seal", "No QRCode found");
+        }
+    }
+
+    public String getQRCodeStr(Bitmap m) throws FormatException, ChecksumException, NotFoundException {
+        int width = m.getWidth();
+        int height = m.getHeight();
+        int[] pixels = new int[width * height];
+        m.getPixels(pixels, 0, width, 0, 0, width, height);
+        RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        String str = reader.decode(bitmap, decodeHints).getText();
+        return str;
+    }
 }
 

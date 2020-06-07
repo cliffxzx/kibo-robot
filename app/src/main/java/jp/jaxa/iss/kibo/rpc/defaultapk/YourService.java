@@ -5,17 +5,8 @@ import java.lang.Thread;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 
 import gov.nasa.arc.astrobee.Result;
-import gov.nasa.arc.astrobee.android.gs.MessageType;
 import gov.nasa.arc.astrobee.types.*;
 import android.util.Log;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import com.google.zxing.qrcode.QRCodeReader;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.RGBLuminanceSource;
-import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.*;
 
 /**
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
@@ -26,21 +17,21 @@ public class YourService extends KiboRpcService {
     protected void runPlan1(){
         api.judgeSendStart();
 
+        QRCodeUtils QRdetector = new QRCodeUtils(api);
+        Thread QRdetector_t = new Thread(QRdetector);
+        QRdetector_t.start();
+
         //QR Code 1
-        moveToWrapper(11.2331, -5.71366, 4.50006,  0.5, -0.5, -0.5, 0.5);
-        QRCodeUtils.judgeQRCodeloop(api);
+        moveToWrapper(11.2331, -5.71366, 4.50006, 0.5, 0.5, -0.5, 0.5);
         moveToWrapper(11.2678, -5.71366, 4.50006, 0, 0, 0, 1);
-        QRCodeUtils.judgeQRCodeloop(api);
 
         //QR Code 2
         moveToWrapper(11, -5.50513, 4.62898, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11, -5.50513, 4.5, 0, 0, -0.7071068, 0.7071068);
-        QRCodeUtils.judgeQRCodeloop(api);
 
         //QR Code 3
         moveToWrapper(11, -6, 4.5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11, -6, 5.37647, 0.5, -0.5, 0.5, -0.5);
-        QRCodeUtils.judgeQRCodeloop(api);
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 4.7, 0, 0, -0.7071068, 0.7071068);
@@ -50,19 +41,16 @@ public class YourService extends KiboRpcService {
         //QR Code 4
         moveToWrapper(11.2454, -7.5, 4.7, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(10.6058, -7.5, 4.7, 0, 0, -0.7071068, 0.7071068 );
-        QRCodeUtils.judgeQRCodeloop(api);
 
         //QR Code 5
         moveToWrapper(11, -7.8, 5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.1, -7.8, 5, 0, 0, -0.7071068, 0.7071068);
-        QRCodeUtils.judgeQRCodeloop(api);
 
         //QR Code 6
         moveToWrapper(11, -7.7, 5, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11, -7.7, 5.3, 0, 0, -0.7071068, 0.7071068);
-        QRCodeUtils.judgeQRCodeloop(api);
 
-        Log.d("Seal", QRCodeUtils.p3.toString());
+        Log.d("Seal", QRdetector.p3.toString());
 
         moveToWrapper(11.1284, -7.66963, 4.6, 0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.1284, -9.4, 4.6, 0, 0, -0.7071068, 0.7071068);
