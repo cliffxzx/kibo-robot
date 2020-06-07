@@ -29,7 +29,7 @@ public class YourService extends KiboRpcService {
         moveToWrapper(11.35, -5.71366, 4.50006, 0, 0, 0, 1);
 
         //QR Code pos_y
-        moveToWrapper(10.9, -6, 5.4, -0.5, -0.5, 0.5, 0.5);
+        moveToWrapper(10.9, -6, 5.4, 0.5, -0.5, 0.5, 0.5);
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);

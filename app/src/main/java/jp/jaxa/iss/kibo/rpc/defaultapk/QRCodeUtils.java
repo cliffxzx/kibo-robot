@@ -24,7 +24,6 @@ public class QRCodeUtils implements Runnable {
     public HashMap<String, Double> p3;
     private QRCodeReader reader;
     private HashMap<String, Integer> idMap;
-    private Map<DecodeHintType, Object> decodeHints;
     private KiboRpcApi api;
 
     public QRCodeUtils(KiboRpcApi api) {
@@ -38,8 +37,6 @@ public class QRCodeUtils implements Runnable {
             put("qua_y", 4);
             put("qua_z", 5);
         }};
-        decodeHints = new HashMap<>();
-        decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 
         p3 = new HashMap<>();
     }
@@ -68,9 +65,9 @@ public class QRCodeUtils implements Runnable {
             }
 
         } catch (FormatException e) {
-            Log.e("Seal", "FormatException", e);
+            Log.w("Seal", "FormatException", e);
         } catch (ChecksumException e) {
-            Log.e("Seal", "ChecksumException", e);
+            Log.w("Seal", "ChecksumException", e);
         } catch (NotFoundException e) {
             Log.i("Seal", "No QRCode found");
         } catch (Exception e){
@@ -85,7 +82,7 @@ public class QRCodeUtils implements Runnable {
         m.getPixels(pixels, 0, width, 0, 0, width, height);
         RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-        String str = reader.decode(bitmap, decodeHints).getText();
+        String str = reader.decode(bitmap).getText();
         return str;
     }
 }
