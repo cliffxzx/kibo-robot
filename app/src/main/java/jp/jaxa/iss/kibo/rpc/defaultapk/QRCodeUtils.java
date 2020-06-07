@@ -60,16 +60,20 @@ public class QRCodeUtils implements Runnable {
     public void judgeQRCode(KiboRpcApi api) {
         try {
             System.gc();
-            String res = getQRCodeStr(api.getBitmapNavCam());
-            Log.d("Seal", res);
+            Bitmap bmps[] = { api.getBitmapNavCam(), api.getBitmapDockCam() };
+            for(int w = 0; w < bmps.length; ++w) {
+                String res = getQRCodeStr(bmps[w]);
+                Log.d("Seal", "From " + (w == 0 ? "Nav Cam:" : "Dock Cam"));
+                Log.d("Seal", res);
 
-            String[] arr = res.split(", ");
-            String id = arr[0];
+                String[] arr = res.split(", ");
+                String id = arr[0];
 
-            if(!p3.containsKey(id)) {
-                double n = Double.parseDouble(arr[1]);
-                p3.put(id, n);
-                api.judgeSendDiscoveredQR(idMap.get(id), res);
+                if(!p3.containsKey(id)) {
+                    double n = Double.parseDouble(arr[1]);
+                    p3.put(id, n);
+                    api.judgeSendDiscoveredQR(idMap.get(id), res);
+                }
             }
 
         } catch (FormatException e) {
