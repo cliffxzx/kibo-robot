@@ -131,7 +131,7 @@ public class YourService extends KiboRpcService {
     private void runFinal(double[] p3){
         Log.d("Seal", Arrays.toString(p3));
 
-        double qua_w = Math.sqrt(Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
+        double qua_w = Math.sqrt(1 - Math.pow(p3[3], 2) + Math.pow(p3[4], 2) + Math.pow(p3[5], 2));
 
         moveToWrapper(p3[0], p3[1], p3[2], p3[3], p3[4], p3[5], qua_w);
 
