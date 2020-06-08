@@ -42,6 +42,9 @@ public class ARTagUtils {
                 Mat rvecs = new Mat(), tvecs = new Mat();
                 Aruco.estimatePoseSingleMarkers(corners, 5, cameraMatrix, distCoeffs, rvecs, tvecs);
 
+                Log.d("Seal", "rvecs: " + rvecs.dump());
+                Log.d("Seal", "tvecs: " + tvecs.dump());
+
                 Log.d("Seal", res);
                 api.judgeSendDiscoveredAR(res);
 

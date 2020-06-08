@@ -20,25 +20,22 @@ public class YourService extends KiboRpcService {
     protected void runPlan1(){
         api.judgeSendStart();
 
-        new QRCodeAsyncTask(new QRCodeAsyncTask.AsyncResponse(){
-            @Override
-            public void processFinish(HashMap<Integer, Double> result) {
-                final double[] p3 = new double[6];
-                for(int i = 0 ; i < 6 ; i++ ){
-                    p3[i] = result.get(i);
-                }
-                runFinal(p3);
-            }
-        }).execute(api);
+        QRCodeUtils task = new QRCodeUtils(api);
 
-        //QR Code pos_z
-        moveToWrapper(11.2331, -5.5, 4.50006, 0.5, 0.5, -0.5, 0.5);
+        //QR Code pos_z 2
+        moveToWrapper(11.236, -5.512, 4.499, 0.498, 0.489, -0.493, 0.519);
 
-        //QR Code pos_x
-        moveToWrapper(11.35, -5.71366, 4.50006, 0, 0, 0, 1);
+        task.judgeQRCode(api);
 
-        //QR Code pos_y
-        moveToWrapper(10.9, -6, 5.4, 0.5, -0.5, 0.5, 0.5);
+        //QR Code pos_x 0
+        moveToWrapper(11.346, -5.714, 4.499, 0.007, 0.01, -0.194, 0.981);
+
+        task.judgeQRCode(api);
+
+        //QR Code pos_y 1
+        moveToWrapper(10.892, -6.006, 5.4, 0.474, -0.498, 0.54, 0.486);
+
+        task.judgeQRCode(api);
 
         //繞牆
         moveToWrapper(10.4643, -6.06433, 5, 0, 0, -0.7071068, 0.7071068);
@@ -46,16 +43,24 @@ public class YourService extends KiboRpcService {
         moveToWrapper(11.32, -6.7, 5, 0, 0, -0.7071068, 0.7071068);
 
         //QR Code qua_y
-        moveToWrapper(11.32, -8, 5, 0, 0, 0, 1);
+        moveToWrapper(11.30, -8.009, 4.998, -0.057, 0.016, 0.366, 0.929);
+
+        task.judgeQRCode(api);
 
         //QR Code qua_x
-        moveToWrapper(10.5, -7.5, 4.7, 0, 0, 1, 0);
+        moveToWrapper(10.524, -7.523, 4.712, -0.132, 0.041, 0.956, 0.256);
+
+        task.judgeQRCode(api);
 
         //QR Code qua_z
-        moveToWrapper(11, -7.7, 5.35, 0.5, -0.5, 0.5, 0.5);
+        moveToWrapper(10.994, -7.691, 5.333, 0.001, -0.457, 0.066, 0.887);
+
+        task.judgeQRCode(api);
 
         moveToWrapper(11.0565,-7.7,4.62372,0, 0, -0.7071068, 0.7071068);
         moveToWrapper(11.0565,-9.27526,4.62372,0, 0, -0.7071068, 0.7071068);
+
+        runFinal(task.getP3());
     }
 
     @Override
